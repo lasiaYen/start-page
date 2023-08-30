@@ -27,6 +27,20 @@
       <DigitalNum class="digital-number" :num="timeArr[4]" />
       <DigitalNum class="digital-number" :num="timeArr[5]" />
     </div>
+
+    <div class="search-container">
+      <transition name="scroll" v-show="isShowSearchBar">
+        <input v-model="searchContent" ref="search" class="search-input" @keyup.enter="onSearch" />
+      </transition>
+
+      <button
+        @click="handleSearch"
+        class="search-btn-wrapper"
+        :class="isShowSearchBar ? 'search-btn-activate' : 'search-btn-inactivate'"
+      >
+        <Search style="width: 1em; height: 1em; margin-top: 16px" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -45,6 +59,8 @@ export default {
   data() {
     return {
       timeArr: ['1', '2', '0', '0', '0', '0'],
+      isShowSearchBar: false,
+      searchContent: '',
     };
   },
   mounted() {
@@ -56,6 +72,18 @@ export default {
       setInterval(() => {
         this.timeArr = new Date().toLocaleString().split(' ')[1].split(':').join('').split('');
       }, 1000);
+    },
+    handleSearch() {
+      this.isShowSearchBar = !this.isShowSearchBar;
+      if (this.isShowSearchBar) {
+        setTimeout(() => {
+          this.$refs.search.focus();
+        }, 200);
+      }
+    },
+    onSearch() {
+      const url = `https://cn.bing.com/search?q=${this.searchContent}`;
+      window.open(url, '_blank');
     },
   },
 };
@@ -75,6 +103,24 @@ export default {
   }
 }
 
+@keyframes scroll {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 40%;
+  }
+}
+
+.scroll-enter-active {
+  animation: scroll 0.3s ease-in;
+}
+
+.scroll-leave-active {
+  animation: scroll 0.3s ease-out reverse;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -89,7 +135,7 @@ export default {
     align-items: center;
     justify-content: center;
     width: 100%;
-    opacity: 1;
+    margin-top: 20px;
 
     .digital-number {
       margin: 0 5px;
@@ -123,6 +169,49 @@ export default {
           animation: flash 1s ease-in-out infinite alternate;
         }
       }
+    }
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+
+    .search-input {
+      width: 40%;
+      height: 50px;
+      padding-top: 5px;
+      padding-left: 20px;
+      margin-right: 20px;
+      font-size: 18px;
+      font-weight: lighter;
+      border: 0;
+      border-radius: 10px;
+      outline: none;
+      box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+    }
+
+    .search-btn-wrapper {
+      width: 55px;
+      height: 55px;
+      font-size: 22px;
+      line-height: 55px;
+      cursor: pointer;
+      user-select: none;
+      background-color: #fff;
+      border: 0;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .search-btn-activate {
+      color: #e9692c;
+      box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 30px 3px #fff;
+    }
+
+    .search-btn-inactivate {
+      box-shadow: 2px 2px 5px #babecc, -5px -5px 30px 3px #fff;
     }
   }
 }

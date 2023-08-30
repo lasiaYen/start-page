@@ -24,7 +24,7 @@
         </div>
       </div>
       <div style="width: 35px" />
-      <div :class="['digital-mid-right', , arr[2] === 1 ? 'activate-right' : '']">
+      <div :class="['digital-mid-right', arr[2] === 1 ? 'activate-right' : '']">
         <div class="digital-arrow-wrapper-left">
           <div class="digital-arrow-left" />
           <div class="digital-arrow-right" />
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div style="width: 35px" />
-      <div :class="['digital-mid-right', , arr[5] === 1 ? 'activate-right' : '']">
+      <div :class="['digital-mid-right', arr[5] === 1 ? 'activate-right' : '']">
         <div class="digital-arrow-wrapper-left">
           <div class="digital-arrow-left" />
           <div class="digital-arrow-right" />
